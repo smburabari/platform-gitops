@@ -1,38 +1,39 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aws-ebs-csi-driver
+  name: ebs-csi-driver
   namespace: argocd
 spec:
   project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
 
   source:
     repoURL: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
     chart: aws-ebs-csi-driver
-    targetRevision: 2.36.0   # stable & current
+    targetRevision: 2.31.0
     helm:
       releaseName: aws-ebs-csi-driver
       values: |
         controller:
           serviceAccount:
-            create: true
-            name: aws-ebs-csi-driver
-            annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-ebs-csi-role
+            create: false
+            name: ebs-csi-controller-sa
+
+          tolerations:
+            - operator: Exists
+
+          nodeSelector: {}
 
         storageClasses:
           - name: gp2
             annotations:
               storageclass.kubernetes.io/is-default-class: "true"
+            volumeBindingMode: WaitForFirstConsumer
             parameters:
               type: gp2
-            reclaimPolicy: Delete
-            volumeBindingMode: WaitForFirstConsumer
-            allowVolumeExpansion: true
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kube-system
+              encrypted: "true"
 
   syncPolicy:
     automated:
