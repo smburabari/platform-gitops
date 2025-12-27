@@ -15,7 +15,7 @@ spec:
         region: us-east-1
         vpcId: vpc-0db67c77cb2a46fb8
         serviceAccount:
-          create: false
+          create: true
           name: aws-load-balancer-controller
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-aws-load-balancer-controller-role
