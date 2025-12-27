@@ -6,15 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GITHUB_USERNAME/platform-gitops.git
+    repoURL: https://github.com/smburabari/platform-gitops.git
     targetRevision: main
-    path: .
+    path: bootstrap
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+      prune: true
