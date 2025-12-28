@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: karpenter
 spec:
-  project: platform
+  project: default
   source:
     repoURL: https://charts.karpenter.sh
     chart: karpenter
