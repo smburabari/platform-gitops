@@ -11,7 +11,7 @@ spec:
     namespace: karpenter
 
   source:
-    repoURL: oci://public.ecr.aws/karpenter
+    repoURL: https://charts.karpenter.sh
     chart: karpenter
     targetRevision: v1.11.0
     helm:
