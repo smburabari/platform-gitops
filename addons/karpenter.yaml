@@ -11,11 +11,10 @@ spec:
     server: https://kubernetes.default.svc
 
   source:
-    repoURL: public.ecr.aws/karpenter
+    repoURL: https://charts.karpenter.sh
     chart: karpenter
-    targetRevision: v0.37.0
+    targetRevision: 0.37.0
     helm:
-      oci: true
       releaseName: karpenter
       values: |
         serviceAccount:
