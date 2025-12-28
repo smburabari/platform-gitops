@@ -15,14 +15,13 @@ spec:
         provider: aws
         policy: upsert-only
         registry: txt
-        txtOwnerId: "versa-platform-dev"
+        txtOwnerId: "versa-platform-dev-eks"
         serviceAccount:
-          name: external-dns
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-external-dns-role
   destination:
-    namespace: kube-system
     server: https://kubernetes.default.svc
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true
