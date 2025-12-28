@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fluent-bit
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: aws-for-fluent-bit
+    server: https://kubernetes.default.svc
+
+  source:
+    repoURL: https://aws.github.io/eks-charts
+    chart: aws-for-fluent-bit
+    targetRevision: 0.1.35
+    helm:
+      releaseName: fluent-bit
+      values: |
+        serviceAccount:
+          name: aws-for-fluent-bit
+          annotations:
+            eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-fluentbit-role
+
+        cloudWatch:
+          enabled: true
+          region: us-east-1
+          logGroupTemplate: /eks/versa-platform-dev-eks/fluentbit
+
+        firehose:
+          enabled: false
+
+        kinesis:
+          enabled: false
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
