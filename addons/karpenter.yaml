@@ -4,7 +4,7 @@ metadata:
   name: karpenter
   namespace: argocd
 spec:
-  project: default
+  project: platform
   destination:
     server: https://kubernetes.default.svc
     namespace: karpenter
@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://charts.karpenter.sh
     chart: karpenter
-    targetRevision: "1.11.1"
+    targetRevision: v1.11.1
 
     helm:
       releaseName: karpenter
@@ -22,7 +22,7 @@ spec:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-karpenter-controller-role
 
         settings:
-          clusterName: "versa-platform-dev-eks"
+          clusterName: versa-platform-dev-eks
           clusterEndpoint: "https://9FDA62B21C7AC250D6136194E222AE51.gr7.us-east-1.eks.amazonaws.com"
           defaultInstanceProfile: "versa-platform-dev-eks-karpenter-node-instance-profile"
 
@@ -31,4 +31,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=truegit add apps/karpenter.yaml
+    - CreateNamespace=true
