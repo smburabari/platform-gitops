@@ -5,15 +5,13 @@ metadata:
   namespace: argocd
 spec:
   project: default
-
   destination:
     namespace: karpenter
     server: https://kubernetes.default.svc
-
   source:
-    repoURL: https://charts.karpenter.sh
+    repoURL: https://aws.github.io/eks-charts
     chart: karpenter
-    targetRevision: v0.33.2
+    targetRevision: v0.37.0
     helm:
       releaseName: karpenter
       values: |
@@ -25,10 +23,9 @@ spec:
         serviceAccount:
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-karpenter-controller-role
-
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
