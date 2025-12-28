@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://charts.karpenter.sh
     chart: karpenter
-    targetRevision: v0.32.4
+    targetRevision: v0.31.0
     helm:
       releaseName: karpenter
       values: |
@@ -23,6 +23,7 @@ spec:
           clusterName: versa-platform-dev-eks
           clusterEndpoint: "https://9FDA62B21C7AC250D6136194E222AE51.gr7.us-east-1.eks.amazonaws.com"
           defaultInstanceProfile: "versa-platform-dev-eks-karpenter-node-instance-profile"
+
   syncPolicy:
     automated:
       prune: true
