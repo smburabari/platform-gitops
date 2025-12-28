@@ -3,22 +3,19 @@ kind: Application
 metadata:
   name: karpenter
   namespace: argocd
-  labels:
-    argocd.argoproj.io/instance: platform-addons
 spec:
   project: default
 
   destination:
-    server: https://kubernetes.default.svc
     namespace: karpenter
+    server: https://kubernetes.default.svc
 
   source:
-    repoURL: oci://public.ecr.aws/karpenter
+    repoURL: public.ecr.aws/karpenter
     chart: karpenter
     targetRevision: v0.37.0
-    oci: true
-
     helm:
+      oci: true
       releaseName: karpenter
       values: |
         serviceAccount:
