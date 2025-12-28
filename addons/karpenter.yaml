@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: oci://public.ecr.aws/karpenter
     chart: karpenter
-    targetRevision: v1.11.0
+    targetRevision: 1.1.2
     helm:
       releaseName: karpenter
       values: |
