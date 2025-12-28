@@ -6,21 +6,21 @@ metadata:
   labels:
     argocd.argoproj.io/instance: platform-addons
 spec:
-  project: default
+  project: platform
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
   source:
     repoURL: https://kubernetes.github.io/autoscaler
     chart: cluster-autoscaler
-    targetRevision: 9.46.0
+    # targetRevision omitted => ArgoCD will pull the latest from the repo
     helm:
       releaseName: cluster-autoscaler
       values: |
+        awsRegion: us-east-1
+
         autoDiscovery:
           clusterName: versa-platform-dev-eks
-
-        awsRegion: us-east-1
 
         rbac:
           serviceAccount:
@@ -28,9 +28,28 @@ spec:
             name: cluster-autoscaler
             annotations:
               eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-cluster-autoscaler-role
+
+        extraArgs:
+          balance-similar-node-groups: "true"
+          skip-nodes-with-local-storage: "false"
+          skip-nodes-with-system-pods: "false"
+          scale-down-delay-after-add: 10m
+          scale-down-unneeded-time: 10m
+          scale-down-utilization-threshold: "0.5"
+
+        podAnnotations:
+          cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi
+          limits:
+            cpu: 500m
+            memory: 600Mi
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false
