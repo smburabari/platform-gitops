@@ -6,12 +6,13 @@ metadata:
 spec:
   project: default
   destination:
-    namespace: karpenter
     server: https://kubernetes.default.svc
+    namespace: karpenter
+
   source:
-    repoURL: https://charts.karpenter.sh
+    repoURL: oci://public.ecr.aws/karpenter/karpenter
     chart: karpenter
-    targetRevision: v0.31.0
+    targetRevision: v0.37.0
     helm:
       releaseName: karpenter
       values: |
@@ -22,7 +23,7 @@ spec:
         settings:
           clusterName: versa-platform-dev-eks
           clusterEndpoint: "https://9FDA62B21C7AC250D6136194E222AE51.gr7.us-east-1.eks.amazonaws.com"
-          defaultInstanceProfile: "versa-platform-dev-eks-karpenter-node-instance-profile"
+          defaultInstanceProfile: versa-platform-dev-eks-karpenter-node-instance-profile
 
   syncPolicy:
     automated:
