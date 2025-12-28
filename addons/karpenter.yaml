@@ -11,14 +11,13 @@ spec:
     namespace: karpenter
 
   source:
-    repoURL: oci://public.ecr.aws/karpenter
-    chart: karpenter
-    targetRevision: 0.35.0
+    repoURL: https://github.com/aws/karpenter-provider-aws
+    path: charts/karpenter
+    targetRevision: v1.11.1
     helm:
       releaseName: karpenter
       values: |
         serviceAccount:
-          create: true
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-karpenter-controller-role
 
