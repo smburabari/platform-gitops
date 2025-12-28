@@ -3,8 +3,5 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-options: Prune=false
 data:
   application.instanceLabelKey: argocd.argoproj.io/instance
-  helm.oci.enabled: "true"
