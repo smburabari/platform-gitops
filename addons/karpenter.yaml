@@ -5,14 +5,29 @@ metadata:
   namespace: argocd
 spec:
   project: default
+
   destination:
-    server: https://kubernetes.default.svc
     namespace: karpenter
+    server: https://kubernetes.default.svc
 
   source:
     repoURL: oci://public.ecr.aws/karpenter
     chart: karpenter
     targetRevision: v0.37.0
+    helm:
+      releaseName: karpenter
+    # 👇 REQUIRED for OCI
+    chart: karpenter
+    repoURL: oci://public.ecr.aws/karpenter
+    targetRevision: v0.37.0
+    chart: karpenter
+    repoURL: oci://public.ecr.aws/karpenter
+    targetRevision: v0.37.0
+    # 👇 THIS enables OCI support
+    # (Yes, Argo really needs this explicit)
+    # Note: key name is exact
+    oci: true
+
     helm:
       releaseName: karpenter
       values: |
