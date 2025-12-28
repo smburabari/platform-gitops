@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-ebs-csi-driver
+  namespace: argocd
+spec:
+  project: platform-project
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+
+  source:
+    repoURL: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+    chart: aws-ebs-csi-driver
+    targetRevision: 2.35.*
+    helm:
+      releaseName: aws-ebs-csi-driver
+      values: |
+        controller:
+          serviceAccount:
+            create: true
+            name: aws-ebs-csi-driver
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-ebs-csi-role
+
+        node:
+          serviceAccount:
+            create: true
+            name: aws-ebs-csi-driver
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-ebs-csi-role
+
+        storageClasses:
+          - name: gp3-csi
+            annotations:
+              storageclass.kubernetes.io/is-default-class: "true"
+            volumeBindingMode: WaitForFirstConsumer
+            reclaimPolicy: Delete
+            allowVolumeExpansion: true
+            parameters:
+              type: gp3
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    
