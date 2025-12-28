@@ -15,7 +15,6 @@ spec:
     chart: karpenter
     targetRevision: v1.11.0
     helm:
-      oci: true
       releaseName: karpenter
       values: |
         serviceAccount:
