@@ -11,7 +11,7 @@ spec:
     namespace: karpenter
 
   source:
-    repoURL: https://github.com/aws/karpenter-provider-aws
+    repoURL: https://github.com/aws/karpenter-provider-aws.git
     path: charts/karpenter
     targetRevision: v1.11.1
     helm:
