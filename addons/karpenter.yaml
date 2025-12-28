@@ -9,23 +9,23 @@ spec:
     namespace: karpenter
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://aws.github.io/eks-charts
+    repoURL: https://charts.karpenter.sh
     chart: karpenter
-    targetRevision: v0.37.0
+    targetRevision: v0.32.4
     helm:
       releaseName: karpenter
       values: |
+        serviceAccount:
+          annotations:
+            eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-karpenter-controller-role
+
         settings:
           clusterName: versa-platform-dev-eks
           clusterEndpoint: "https://9FDA62B21C7AC250D6136194E222AE51.gr7.us-east-1.eks.amazonaws.com"
           defaultInstanceProfile: "versa-platform-dev-eks-karpenter-node-instance-profile"
-
-        serviceAccount:
-          annotations:
-            eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-karpenter-controller-role
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
