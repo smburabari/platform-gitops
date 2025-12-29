@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.velero.io
+    chart: velero
+    targetRevision: 6.7.0
+    helm:
+      values: |
+        configuration:
+          provider: aws
+          backupStorageLocation:
+            - name: default
+              provider: aws
+              bucket: versa-platform-velero-backups
+              default: true
+              config:
+                region: us-east-1
+
+        credentials:
+          useSecret: false
+
+        serviceAccount:
+          server:
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-velero-role
+
+        initContainers:
+          - name: velero-plugin-for-aws
+            image: velero/velero-plugin-for-aws:v1.9.0
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
