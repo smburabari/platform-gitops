@@ -4,7 +4,7 @@ metadata:
   name: platform-root
   namespace: argocd
 spec:
-  project: platform
+  project: default
   source:
     repoURL: https://github.com/smburabari/platform-gitops.git
     targetRevision: main
