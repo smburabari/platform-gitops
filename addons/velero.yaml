@@ -5,24 +5,22 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: velero
   source:
     repoURL: https://vmware-tanzu.github.io/helm-charts
     chart: velero
-    targetRevision: 6.7.0
+    targetRevision: 11.2.0
     helm:
       values: |
         configuration:
           provider: aws
-          backupStorageLocation:
-            - name: default
-              provider: aws
-              bucket: versa-platform-velero-backups
-              default: true
-              config:
-                region: us-east-1
+
+        backupStorageLocation:
+          - name: default
+            provider: aws
+            bucket: versa-platform-velero-backups
+            default: true
+            config:
+              region: us-east-1
 
         credentials:
           useSecret: false
@@ -38,9 +36,12 @@ spec:
             volumeMounts:
               - mountPath: /target
                 name: plugins
+  destination:
+    namespace: velero
+    server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true
