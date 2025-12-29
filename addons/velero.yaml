@@ -15,13 +15,14 @@ spec:
 
         configuration:
           provider: aws
-          backupStorageLocation:
-            - name: default
-              provider: aws
-              bucket: versa-platform-velero-backups
-              default: true
-              config:
-                region: us-east-1
+
+        backupStorageLocations:
+          - name: default
+            provider: aws
+            bucket: versa-platform-velero-backups
+            default: true
+            config:
+              region: us-east-1
 
         credentials:
           useSecret: false
