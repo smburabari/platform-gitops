@@ -4,7 +4,7 @@ metadata:
   name: loki
   namespace: argocd
 spec:
-  project: default
+  project: platform
   source:
     repoURL: https://grafana.github.io/helm-charts
     chart: loki
@@ -13,6 +13,10 @@ spec:
       values: |
         loki:
           auth_enabled: false
+
+          serviceAccount:
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-loki-role
 
           storage:
             type: s3
@@ -38,7 +42,6 @@ spec:
             retention_enabled: true
             retention_delete_delay: 2h
             retention_delete_worker_count: 2
-
   destination:
     namespace: loki
     server: https://kubernetes.default.svc
