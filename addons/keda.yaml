@@ -8,18 +8,19 @@ spec:
   source:
     repoURL: https://kedacore.github.io/charts
     chart: keda
-    targetRevision: 2.15.2
+    targetRevision: 2.18.3
     helm:
       values: |
-        watchNamespace: ""
         metricsServer:
-          enabled: false
+          enabled: false   # You already have metrics-server installed
+        podSecurity:
+          enforce: false   # avoids issues with strict Gatekeeper PSP style policies
   destination:
-    namespace: keda
     server: https://kubernetes.default.svc
+    namespace: keda
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
