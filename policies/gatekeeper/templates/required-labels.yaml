@@ -1,4 +1,4 @@
-apiVersion: templates.gatekeeper.sh/v1beta1
+apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
   name: k8srequiredlabels
@@ -8,13 +8,11 @@ spec:
       names:
         kind: K8sRequiredLabels
   targets:
-    - target: admission.k8s.gatekeeper.sh
-      rego: |
-        package k8srequiredlabels
+  - target: admission.k8s.gatekeeper.sh
+    rego: |
+      package k8srequiredlabels
 
-        violation[{"msg": msg}] {
-          required := {label | label := input.parameters.labels[_]}
-          missing := required - {key | input.review.object.metadata.labels[key]}
-          count(missing) > 0
-          msg := sprintf("Missing required labels: %v", [missing])
-        }
+      violation[{"msg": msg}] {
+        input.review.object.metadata.labels[label] == ""
+        msg := sprintf("label %v is required", [label])
+      }

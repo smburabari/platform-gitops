@@ -1,13 +1,11 @@
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sRequiredLabels
 metadata:
-  name: require-standard-labels
+  name: require-namespace-owner-label
 spec:
   match:
     kinds:
-      - apiGroups: [""]
-        kinds: ["Pod"]
+    - apiGroups: [""]
+      kinds: ["Namespace"]
   parameters:
-    labels:
-      - app
-      - owner
+    labels: ["owner"]
