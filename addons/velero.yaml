@@ -11,16 +11,17 @@ spec:
     targetRevision: 11.2.0
     helm:
       values: |
+        deployNodeAgent: false
+
         configuration:
           provider: aws
-
-        backupStorageLocation:
-          - name: default
-            provider: aws
-            bucket: versa-platform-velero-backups
-            default: true
-            config:
-              region: us-east-1
+          backupStorageLocation:
+            - name: default
+              provider: aws
+              bucket: versa-platform-velero-backups
+              default: true
+              config:
+                region: us-east-1
 
         credentials:
           useSecret: false
@@ -44,4 +45,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
