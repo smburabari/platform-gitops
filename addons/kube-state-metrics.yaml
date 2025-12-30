@@ -4,7 +4,7 @@ metadata:
   name: kube-state-metrics
   namespace: argocd
 spec:
-  project: default
+  project: platform
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system

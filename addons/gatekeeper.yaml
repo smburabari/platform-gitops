@@ -4,7 +4,7 @@ metadata:
   name: gatekeeper
   namespace: argocd
 spec:
-  project: default
+  project: platform
   source:
     repoURL: https://open-policy-agent.github.io/gatekeeper/charts
     chart: gatekeeper

@@ -4,7 +4,7 @@ metadata:
   name: aws-ebs-csi-driver
   namespace: argocd
 spec:
-  project: default
+  project: platform
   source:
     repoURL: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
     chart: aws-ebs-csi-driver
