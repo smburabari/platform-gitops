@@ -38,7 +38,7 @@ spec:
                   period: 24h
 
           compactor:
-            enabled: true
+            #enabled: true
             retention_enabled: true
             retention_delete_delay: 2h
             retention_delete_worker_count: 2
