@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
 spec:
   project: platform
+
   source:
     repoURL: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
     chart: aws-ebs-csi-driver
@@ -25,6 +26,7 @@ spec:
             create: true
             annotations:
               eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-dev-eks-ebs-csi-role
+
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
@@ -33,5 +35,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

@@ -7,11 +7,13 @@ spec:
   project: platform
   source:
     repoURL: https://aws.github.io/eks-charts
-    chart: aws-secrets-manager
-    targetRevision: 1.9.2
+    chart: secrets-store-csi-driver-provider-aws
+    targetRevision: 1.3.3   # <-- Current stable commonly used
+    helm:
+      releaseName: aws-secrets-manager-provider
   destination:
-    namespace: kube-system
     server: https://kubernetes.default.svc
+    namespace: kube-system
   syncPolicy:
     automated:
       prune: true

@@ -5,25 +5,31 @@ metadata:
   namespace: argocd
 spec:
   project: platform
+
   source:
     repoURL: https://aws.github.io/eks-charts
     chart: aws-load-balancer-controller
     targetRevision: 1.9.0
     helm:
+      releaseName: aws-load-balancer-controller
       values: |
         clusterName: versa-platform-dev-eks
         region: us-east-1
-        vpcId: vpc-0db67c77cb2a46fb8
+        vpcId: vpc-046c20d81d30f236b
 
         serviceAccount:
           create: true
           name: aws-load-balancer-controller
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::037776138351:role/versa-platform-aws-load-balancer-controller-role
+
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
