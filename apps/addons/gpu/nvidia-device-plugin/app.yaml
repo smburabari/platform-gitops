@@ -11,7 +11,7 @@ spec:
     # You can verify versions with:
     #   helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
     #   helm search repo nvdp/nvidia-device-plugin --versions | head
-    targetRevision: 0.3.9
+    targetRevision: 0.18.0
     helm:
       values: |
         # Run the plugin as a DaemonSet on GPU nodes
