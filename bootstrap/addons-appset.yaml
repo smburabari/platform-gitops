@@ -12,7 +12,7 @@ spec:
           - path: apps/addons/*
   template:
     metadata:
-      name: argocd
+      name: '{{path.basename}}'
     spec:
       project: platform
       source:
