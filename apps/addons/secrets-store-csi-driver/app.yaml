@@ -5,21 +5,36 @@ metadata:
   namespace: argocd
 spec:
   project: platform
-  source:
-    repoURL: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
-    chart: secrets-store-csi-driver
-    targetRevision: 1.5.5
-    helm:
-      values: |
-        syncSecret:
-          enabled: true
-        enableSecretRotation: true
+
   destination:
     namespace: kube-system
     server: https://kubernetes.default.svc
+
+  # 🚨 Multi-source App
+  sources:
+    # ---- 1️⃣ CSI DRIVER ----
+    - repoURL: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+      chart: secrets-store-csi-driver
+      targetRevision: 1.5.5
+      helm:
+        releaseName: secrets-store-csi-driver
+        values: |
+          syncSecret:
+            enabled: true
+          enableSecretRotation: true
+          rotationPollInterval: 120s
+
+    # ---- 2️⃣ AWS PROVIDER ----
+    - repoURL: https://aws.github.io/secrets-store-csi-driver-provider-aws
+      chart: secrets-store-csi-driver-provider-aws
+      targetRevision: 2.1.1
+      helm:
+        releaseName: aws-secrets-manager-provider
+        values: |
+          serviceAccount:
+            create: true
+
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
