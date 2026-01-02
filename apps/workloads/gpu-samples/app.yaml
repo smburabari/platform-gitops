@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gpu-samples
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/instance: platform-root
+    app.kubernetes.io/part-of: ai-workloads
+spec:
+  project: platform
+
+  source:
+    repoURL: https://github.com/smburabari/platform-gitops.git
+    targetRevision: main
+    path: workloads/gpu-samples
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai-workloads
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

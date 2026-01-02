@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gpu-test
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/smburabari/platform-gitops.git
+    path: workloads/gpu-test/manifests
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gpu-workloads
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
